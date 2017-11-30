@@ -1,4 +1,7 @@
+import Image
+
 import cv2
+from matplotlib import pyplot as plt
 
 # Get user supplied values
 imagePath = "res/the_saturdays_right.jpg"
@@ -22,10 +25,14 @@ faces = faceCascade.detectMultiScale(
 
 print("Found {0} faces!".format(len(faces)))
 
-# Draw a rectangle around the faces
-for (x, y, w, h) in faces:
-    cv2.rectangle(image, (x, y), (x+w, y+h), (0, 255, 0), 2)
+source_image = Image.open(imagePath)
+faces_array = []
 
-cv2.imshow("Faces found", image)
+for (x, y, w, h) in faces:
+    coords = (x, y, x + w, y + h)
+    curent_face = source_image.crop(coords)
+    faces_array.append(curent_face)
+    curent_face.show()
+
 cv2.waitKey(0)
 
